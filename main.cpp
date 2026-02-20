@@ -3,22 +3,22 @@
 
 using namespace std;
 
-// The Appliance Class
+
 class Appliance {
 private:
     string name;
-    double powerRating; // in Watts
-    double usageHours;  // 0 to 24 hours
+    double powerRating; 
+    double usageHours;  
 
 public:
-    // Default constructor
+    
     Appliance() {
         name = "Unknown";
         powerRating = 0.0;
         usageHours = 0.0;
     }
 
-    // Setters with Validation Rules
+   
     bool setName(string n) {
         if (n.empty()) {
             cout << "Error: Appliance name cannot be empty.\n";
@@ -46,34 +46,113 @@ public:
         return true;
     }
 
-    // Getters to retrieve the data
+    
     string getName() { return name; }
     double getPowerRating() { return powerRating; }
     double getUsageHours() { return usageHours; }
 
-    // Energy Calculation Method
+    
     double getDailyEnergyKWh() {
-        // Formula: (Watts * Hours) / 1000
+        
         return (powerRating * usageHours) / 1000.0;
     }
 };
 
 int main() {
-    cout << "--- Testing the Appliance Class ---\n";
     
-    // Create a test object
-    Appliance testFan;
+    const int MAX_APPLIANCES = 100;
+    Appliance appliances[MAX_APPLIANCES];
     
-    // Let's test the validation (you can change these values to see the errors!)
-    testFan.setName("Ceiling Fan");
-    testFan.setPowerRating(75.0); // 75 Watts
-    testFan.setUsageHours(8.5);   // 8.5 hours a day
+    int applianceCount = 0; 
+    int choice;            
 
-    // Print out the results
-    cout << "Appliance: " << testFan.getName() << endl;
-    cout << "Power Rating: " << testFan.getPowerRating() << " W" << endl;
-    cout << "Daily Usage: " << testFan.getUsageHours() << " hours" << endl;
-    cout << "Daily Energy Consumption: " << testFan.getDailyEnergyKWh() << " kWh" << endl;
+    
+    while (true) {
+       
+        cout << "\n=========================================\n";
+        cout << "  Electrical Load Monitoring System\n";
+        cout << "=========================================\n";
+        cout << "1. Register an Appliance\n";
+        cout << "2. View All Registered Appliances\n";
+        cout << "0. Exit\n";
+        cout << "Enter your choice: ";
+        
+     
+        if (!(cin >> choice)) { 
+            cout << "Invalid input. Please enter a number.\n";
+            cin.clear();               
+            cin.ignore(10000, '\n');   
+            continue;                  
+        }
 
-    return 0;
+       
+        if (choice == 0) {
+            cout << "Exiting system. Goodbye!\n";
+            break; 
+        } 
+        
+        else if (choice == 1) {
+         
+            if (applianceCount >= MAX_APPLIANCES) {
+                cout << "Error: Maximum appliance limit reached.\n";
+                continue; 
+            }
+
+          
+            Appliance newAppliance;
+            string tempName;
+            double tempPower, tempHours;
+
+            cout << "\n--- Register New Appliance ---\n";
+            cin.ignore(); 
+            
+            
+            do {
+                cout << "Enter Appliance Name: ";
+                getline(cin, tempName);
+            } while (!newAppliance.setName(tempName));
+
+           
+            do {
+                cout << "Enter Power Rating (Watts): ";
+                cin >> tempPower;
+            } while (!newAppliance.setPowerRating(tempPower));
+
+            
+            do {
+                cout << "Enter Daily Usage (Hours): ";
+                cin >> tempHours;
+            } while (!newAppliance.setUsageHours(tempHours));
+
+            
+            appliances[applianceCount] = newAppliance;
+            applianceCount++;
+            
+            cout << "Appliance successfully registered!\n";
+        } 
+        
+        else if (choice == 2) {
+            cout << "\n--- Registered Appliances ---\n";
+            
+           
+            if (applianceCount == 0) {
+                cout << "No appliances registered yet.\n";
+            } else {
+                
+                for (int i = 0; i < applianceCount; i++) {   
+                    cout << i + 1 << ". " << appliances[i].getName() 
+                         << " | Power: " << appliances[i].getPowerRating() << " W"
+                         << " | Usage: " << appliances[i].getUsageHours() << " hrs"
+                         << " | Energy: " << appliances[i].getDailyEnergyKWh() << " kWh/day\n";
+                }
+            }
+        } 
+        
+        else {
+           
+            cout << "Invalid choice. Please select 0, 1, or 2.\n";
+        }
+    }
+
+    return 0; 
 }
