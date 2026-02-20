@@ -74,6 +74,7 @@ int main() {
         cout << "=========================================\n";
         cout << "1. Register an Appliance\n";
         cout << "2. View All Registered Appliances\n";
+        cout << "3. Search Appliance by Name\n"; 
         cout << "0. Exit\n";
         cout << "Enter your choice: ";
         
@@ -147,12 +148,57 @@ int main() {
                 }
             }
         } 
+           
+        else if (choice == 3) {
+            
+            if (applianceCount == 0) {
+                cout << "The shelf is empty. No appliances registered yet to search.\n";
+                continue; 
+            }
+
+            string targetName;
+            cout << "\n--- Search Appliance ---\n";
+            cout << "Enter the exact name of the appliance to find: ";
+            cin.ignore(); 
+            getline(cin, targetName);
+
+            
+            bool found = false;
+            int matchCount = 0;
+          
+            for (int i = 0; i < applianceCount; i++) {
+                
+                
+                if (appliances[i].getName() == targetName) {
+
+                    matchCount++;
+                   
+                    cout << "\n[Match Found!]\n";
+                    cout << "Name:   " << appliances[i].getName() << "\n";
+                    cout << "Power:  " << appliances[i].getPowerRating() << " W\n";
+                    cout << "Usage:  " << appliances[i].getUsageHours() << " hours/day\n";
+                    cout << "Energy: " << appliances[i].getDailyEnergyKWh() << " kWh/day\n";
+                    
+                    
+                    found = true;
+                    
+        
+                }
+            }
+
+            
+            if (found == false) {
+                cout << "Sorry, no appliance named '" << targetName << "' was found on the system.\n";
+            }
         
         else {
            
-            cout << "Invalid choice. Please select 0, 1, or 2.\n";
+           cout << "\nTotal '" << targetName << "' appliances found: " << matchCount << "\n";
         }
-    }
+     }
+    
 
-    return 0; 
+     
+}
+return 0;
 }
