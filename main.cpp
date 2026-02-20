@@ -75,6 +75,7 @@ int main() {
         cout << "1. Register an Appliance\n";
         cout << "2. View All Registered Appliances\n";
         cout << "3. Search Appliance by Name\n"; 
+        cout << "4. Calculate Total Energy Consumption\n";
         cout << "0. Exit\n";
         cout << "Enter your choice: ";
         
@@ -197,7 +198,30 @@ int main() {
         }
      }
     
+        else if (choice == 4) {
+            
+            if (applianceCount == 0) {
+                cout << "\nThe shelf is empty. Register some appliances first!\n";
+                continue;
+            }
 
+           
+            double totalEnergyKWh = 0.0;
+
+            
+            for (int i = 0; i < applianceCount; i++) {
+                
+              
+                totalEnergyKWh += appliances[i].getDailyEnergyKWh();
+                
+                
+            }
+
+            
+            cout << "\n--- Total Energy Consumption ---\n";
+            cout << "Number of Appliances: " << applianceCount << "\n";
+            cout << "Total Facility Load:  " << totalEnergyKWh << " kWh per day\n";
+        }
      
 }
 return 0;
